@@ -1,0 +1,30 @@
+model:
+  name_or_path: "../example_models/tiny_bert_causal"
+  projector_path: "../outputs/alignment/smoke-local/projector.pt"
+projector:
+  input_dim: 64
+  hidden_dim: 128
+  num_tokens: 8
+  mode: "pool"
+data:
+  jsonl: "../example_data/sft/train.jsonl"
+  imu_roots:
+    - "../example_data"
+train:
+  lr: 1.0e-4
+  weight_decay: 0.0
+  batch_size: 1
+  num_epochs: 1
+  grad_accum: 1
+  warmup_steps: 0
+  max_seq_len: 128
+  max_grad_norm: 1.0
+  log_every: 1
+  num_workers: 0
+runtime:
+  device: "cuda"
+  torch_dtype: "float32"
+output:
+  root: "../outputs/sft"
+  run_name: "smoke-local"
+seed: 42

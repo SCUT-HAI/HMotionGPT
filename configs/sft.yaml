@@ -1,0 +1,30 @@
+model:
+  name_or_path: "Qwen/Qwen2.5-7B-Instruct"
+  projector_path: "../outputs/alignment/default/projector.pt"
+projector:
+  input_dim: 64
+  hidden_dim: 1024
+  num_tokens: 32
+  mode: "pool"
+data:
+  jsonl: "../data/s1_sft/select/train.jsonl"
+  imu_roots:
+    - "../data"
+train:
+  lr: 1.0e-5
+  weight_decay: 0.01
+  batch_size: 2
+  num_epochs: 5
+  grad_accum: 1
+  warmup_steps: 100
+  max_seq_len: 1536
+  max_grad_norm: 1.0
+  log_every: 10
+  num_workers: 0
+runtime:
+  device: "auto"
+  torch_dtype: "bfloat16"
+output:
+  root: "../outputs/sft"
+  run_name: "select-default"
+seed: 42

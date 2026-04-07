@@ -9,98 +9,165 @@
 >
 > Accepted in *Proceedings of the ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies* (**IMWUT 2025**)
 
----
-
 ## Overview
 
-**HMotionGPT** is a multimodal framework that bridges raw hand-motion signals captured by commodity **smart rings** with natural language, enabling fine-grained activity understanding. Inspired by the success of large language models, HMotionGPT trains a motion tokenizer to discretize continuous IMU-based hand-motion sequences and then aligns these motion tokens with a pre-trained language model through instruction tuning. This joint representation allows the model to:
+HMotionGPT is a multimodal framework that bridges smart-ring IMU signals and natural language for hand-centric activity understanding. This repository releases the core open-source training code for the IMU-conditioned language model, including:
 
-- **Recognize** everyday hand-based activities from wrist-worn smart ring sensor data.
-- **Describe** detected activities in natural language (motion captioning).
-- **Answer** open-ended questions about hand motions (motion question answering).
-- **Retrieve** relevant motion clips given a natural-language query.
+- stage-1 alignment training for the IMU projector
+- stage-2 supervised fine-tuning with a frozen projector
+- configurable LLM backbones
+- a minimal runnable example for smoke testing
 
-The framework is evaluated on a newly collected smart-ring activity dataset and demonstrates strong performance across multiple language-motion understanding tasks.
+This release focuses on the model construction and training pipeline. Internal evaluation scripts, rebuttal code, private data, and large checkpoints are not included.
 
----
+## Repository Structure
 
-## Key Features
-
-- 📡 **Smart-ring IMU input** — works with the compact, always-on sensor suite of a smart ring (accelerometer + gyroscope).
-- 🔤 **Language-motion alignment** — motion sequences are tokenized and projected into the token space of a large language model.
-- 💬 **Instruction-tuned LLM backbone** — supports zero-shot and few-shot generalization to unseen activities.
-- 🏆 **IMWUT 2025** — peer-reviewed and published in a top-tier ubiquitous computing venue.
-
----
-
-## Framework
-
-```
-Smart Ring IMU Data
-        │
-        ▼
- Motion Tokenizer (VQ-VAE)
-        │
-        ▼
-  Motion Token Sequence
-        │
-        ▼
-  LLM (Instruction Tuning)  ◄──── Natural Language Prompt
-        │
-        ▼
-  Activity Label / Caption / QA Answer
+```text
+HMotionGPT/
+├── configs/
+├── example_data/
+├── example_models/
+├── hmotiongpt/
+│   ├── cli/
+│   ├── data/
+│   ├── models/
+│   ├── training/
+│   └── utils/
+├── scripts/
+├── LICENSE
+├── README.md
+└── requirements.txt
 ```
 
----
-
-## Requirements
-
-```
-Python >= 3.8
-PyTorch >= 1.13
-transformers >= 4.30
-numpy
-scipy
-tqdm
-```
-
-Install all dependencies via:
+## Installation
 
 ```bash
+git clone https://github.com/SCUT-HAI/HMotionGPT.git
+cd HMotionGPT
 pip install -r requirements.txt
 ```
 
----
+Recommended environment:
 
-## Dataset
+- Python >= 3.8
+- PyTorch with CUDA support
+- transformers
 
-The dataset and pre-processed features used in our experiments will be released at this repository. Please check back soon or **star** the repo to get notified.
+## Quick Start
 
----
+The repository includes a tiny local backbone and a tiny example dataset for smoke testing. This is useful for verifying that the code path is runnable before switching to a real LLM backbone and your own IMU features.
 
-## Model Checkpoints
-
-Pre-trained model checkpoints will be released here upon acceptance formality completion. Stay tuned.
-
----
-
-## Usage
-
-### Training
+Stage 1 smoke test:
 
 ```bash
-python train.py --config configs/hmotiongpt.yaml
+PYTHONPATH=. python -m hmotiongpt.cli.train_alignment --config configs/smoke_local_alignment.yaml
 ```
 
-### Evaluation
+Stage 2 smoke test:
 
 ```bash
-python evaluate.py --config configs/hmotiongpt.yaml --checkpoint checkpoints/hmotiongpt.pth
+PYTHONPATH=. python -m hmotiongpt.cli.train_sft --config configs/smoke_local_sft.yaml
 ```
 
-> **Note:** Detailed configuration options and data-preparation scripts will be uploaded along with the full code release.
+You can also use the shell wrappers:
 
----
+```bash
+bash scripts/train_alignment.sh
+bash scripts/train_sft.sh
+```
+
+## Training With Your Own Backbone
+
+### 1. Configure the backbone
+
+Edit [configs/alignment.yaml](configs/alignment.yaml) and [configs/sft.yaml](configs/sft.yaml):
+
+```yaml
+model:
+  name_or_path: "/path/to/your/llm"
+```
+
+Users should download the language model backbone by themselves and set `name_or_path` to a local path or a Hugging Face model identifier.
+
+### 2. Run stage-1 alignment
+
+```bash
+PYTHONPATH=. python -m hmotiongpt.cli.train_alignment --config configs/alignment.yaml
+```
+
+This stage freezes the LLM and trains the IMU projector.
+
+### 3. Run stage-2 SFT
+
+Set the projector checkpoint path in [configs/sft.yaml](configs/sft.yaml):
+
+```yaml
+model:
+  name_or_path: "/path/to/your/llm"
+  projector_path: "../outputs/alignment/your_run/projector.pt"
+```
+
+Then run:
+
+```bash
+PYTHONPATH=. python -m hmotiongpt.cli.train_sft --config configs/sft.yaml
+```
+
+This stage loads the projector from stage 1, freezes it, and fine-tunes the LLM.
+
+## Data Format
+
+### Alignment JSONL
+
+```json
+{
+  "imu_vec_path": "data/imu_windows/example.npy",
+  "text": "右手将物体向左移动。"
+}
+```
+
+### SFT JSONL
+
+```json
+{
+  "imu_vec_path": "data/imu_windows/example.npy",
+  "instruction": "给定一个IMU动作片段，请选择最合适的动作标签。",
+  "input": "",
+  "output": "炒菜"
+}
+```
+
+Supported IMU path keys include:
+
+- `imu_vec_path`
+- `imu_path`
+- `imu_file`
+- `imu`
+
+The IMU feature file should be a `.npy` array with shape `[T, D]`.
+
+## Output
+
+Stage 1 saves:
+
+- projector checkpoints
+- tokenizer files
+- `metrics.jsonl`
+- tensorboard logs when available
+
+Stage 2 saves:
+
+- LLM checkpoints
+- projector checkpoint copy
+- tokenizer files
+- `metrics.jsonl`
+- tensorboard logs when available
+
+## Notes
+
+- The toy assets under `example_data/` and `example_models/` are only for minimal verification.
+- Real experiments should use your actual IMU feature files and your target LLM backbone.
+- This repository does not include private datasets, rebuttal code, evaluation-only pipelines, or full released checkpoints.
 
 ## Citation
 
@@ -115,15 +182,10 @@ If you find this work useful, please cite our paper:
 }
 ```
 
----
-
 ## License
 
 This project is released under the [MIT License](LICENSE).
 
----
-
 ## Acknowledgments
 
 We sincerely thank all participants who volunteered in our data collection study, and the anonymous reviewers for their insightful feedback.
-

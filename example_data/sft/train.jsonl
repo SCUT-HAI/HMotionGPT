@@ -1,0 +1,2 @@
+{"imu_vec_path": "../imu/sample_0.npy", "instruction": "给定一个IMU动作片段，请输出对应的简短描述。", "input": "", "output": "右手轻微向前移动后停下。"}
+{"imu_vec_path": "../imu/sample_1.npy", "instruction": "给定一个IMU动作片段，请输出对应的简短描述。", "input": "", "output": "右手向左平移并保持抓握。"}
