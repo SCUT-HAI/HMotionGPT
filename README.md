@@ -24,19 +24,19 @@ This release focuses on the model construction and training pipeline. Internal e
 
 ![HMotionGPT system](figs/HMotionGPT_system.png)
 
-*Fig. 2. (a-b) A user wearing dual smart rings performs daily hand-object interactions such as drinking. (c) The ring prototype integrates a 9-axis IMU, Wi-Fi-enabled MCU, and Li-ion battery within a compact modular form factor. (d) PCB layout and component distribution. (e) System pipeline: HMotionGPT continuously streams IMU data via Wi-Fi to a local network device and cloud server, where HMotionGPT performs activity understanding and generates natural-language descriptions of user actions.*
+This figure illustrates the full HMotionGPT usage scenario, from dual smart-ring sensing hardware to the end-to-end deployment pipeline. The top panels show real hand-object interaction examples and the ring prototype design, while the right panel summarizes how IMU streams are transmitted to the backend and converted into activity understanding outputs and natural-language descriptions.
 
 ## Model Architecture
 
 ![Overall architecture of HMotionGPT](figs/overview_hmontiongpt.png)
 
-*Fig. 4. Overall Architecture of HMotionGPT.*
+This figure summarizes the core architecture of HMotionGPT. IMU sequences are first converted into motion representations, then aligned with the language model through a projector so the model can solve downstream tasks such as classification, captioning, and instruction-following activity understanding.
 
 ## Training Pipeline
 
 ![Two-stage training pipeline of HMotionGPT](figs/training_pipeline.png)
 
-*Fig. 5. Two-Stage Training Pipeline of HMotionGPT.*
+This figure shows the two-stage optimization strategy used in this repository. Stage 1 learns the IMU-to-language alignment by training the projector with the LLM frozen, and Stage 2 performs supervised fine-tuning so the aligned model can better follow task instructions and generate task-specific outputs.
 
 ## Repository Structure
 
