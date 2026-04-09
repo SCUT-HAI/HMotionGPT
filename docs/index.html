@@ -103,34 +103,41 @@
                   </a>
                 </span>
               </div>
-
-              <nav class="hero-nav" aria-label="Section navigation">
-                <a class="hero-nav-item" href="#overview">Overview</a>
-                <a class="hero-nav-item" href="#architecture">Architecture</a>
-                <a class="hero-nav-item" href="#training">Training</a>
-                <a class="hero-nav-item" href="#resources">Resources</a>
-                <a class="hero-nav-item" href="#citation">Citation</a>
-              </nav>
-
-              <div class="abstract-card">
-                <div class="abstract-accent"></div>
-                <h3 class="section-card-title">
-                  <span class="section-card-dot"></span>
-                  <span>Abstract</span>
-                </h3>
-                <p class="section-card-text">
-                  HMotionGPT is a multimodal framework that aligns smart-ring IMU
-                  signals with natural language for hand-centric activity
-                  understanding. The model projects motion representations into a
-                  language model so the system can support classification,
-                  captioning, and instruction-following activity analysis. This
-                  open-source release includes the core two-stage training
-                  pipeline, configurable language-model backbones, and minimal
-                  smoke-test assets for reproducible experimentation.
-                </p>
-              </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sticky-nav-wrap">
+      <nav class="sticky-nav" aria-label="Section navigation">
+        <a class="nav-link is-active" href="#abstract">Abstract</a>
+        <a class="nav-link" href="#overview">Overview</a>
+        <a class="nav-link" href="#architecture">Architecture</a>
+        <a class="nav-link" href="#training">Training</a>
+        <a class="nav-link" href="#resources">Resources</a>
+        <a class="nav-link" href="#citation">Citation</a>
+      </nav>
+    </div>
+
+    <section class="section showcase-section" id="abstract">
+      <div class="container showcase-shell">
+        <div class="abstract-card">
+          <div class="abstract-accent"></div>
+          <h3 class="section-card-title">
+            <span class="section-card-dot"></span>
+            <span>Abstract</span>
+          </h3>
+          <p class="section-card-text">
+            HMotionGPT is a multimodal framework that aligns smart-ring IMU
+            signals with natural language for hand-centric activity
+            understanding. The model projects motion representations into a
+            language model so the system can support classification,
+            captioning, and instruction-following activity analysis. This
+            open-source release includes the core two-stage training pipeline,
+            configurable language-model backbones, and minimal smoke-test assets
+            for reproducible experimentation.
+          </p>
         </div>
       </div>
     </section>
@@ -278,5 +285,44 @@
         </article>
       </div>
     </section>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const navLinks = Array.from(document.querySelectorAll(".nav-link"));
+        const sections = navLinks
+          .map((link) => document.querySelector(link.getAttribute("href")))
+          .filter(Boolean);
+
+        function setActive(id) {
+          navLinks.forEach((link) => {
+            link.classList.toggle("is-active", link.getAttribute("href") === "#" + id);
+          });
+        }
+
+        function syncActiveLink() {
+          const trigger = window.scrollY + 160;
+          let currentId = sections[0] ? sections[0].id : null;
+
+          sections.forEach((section) => {
+            if (trigger >= section.offsetTop) {
+              currentId = section.id;
+            }
+          });
+
+          if (currentId) {
+            setActive(currentId);
+          }
+        }
+
+        navLinks.forEach((link) => {
+          link.addEventListener("click", function () {
+            const id = this.getAttribute("href").slice(1);
+            setActive(id);
+          });
+        });
+
+        window.addEventListener("scroll", syncActiveLink, { passive: true });
+        syncActiveLink();
+      });
+    </script>
   </body>
 </html>
