@@ -245,6 +245,99 @@ a:hover {
   line-height: 1.8;
 }
 
+.footer {
+  background: transparent;
+}
+
+.institution-footer {
+  padding-top: 0.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.institution-shell {
+  width: min(96vw, 1400px);
+  max-width: 1400px !important;
+}
+
+.institution-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.08fr) minmax(0, 1.3fr);
+  gap: 2.1rem;
+  align-items: center;
+  padding: 1.8rem 2.6rem;
+  border: 1px solid rgba(112, 122, 142, 0.12);
+  border-radius: 30px;
+  background: linear-gradient(180deg, rgba(244, 238, 230, 0.92), rgba(234, 238, 246, 0.9));
+  box-shadow:
+    0 18px 42px rgba(31, 41, 55, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.institution-item {
+  display: flex;
+  align-items: center;
+  gap: 1.05rem;
+  justify-content: flex-start;
+  min-width: 0;
+}
+
+.institution-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 74px;
+  height: 74px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.institution-logo img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.institution-logo-wide {
+  width: 98px;
+}
+
+.institution-logo-academy {
+  width: 96px;
+  height: 78px;
+}
+
+.institution-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+}
+
+.institution-title {
+  margin: 0;
+  font-family: "Google Sans", "Noto Sans", sans-serif;
+  font-size: 0.94rem;
+  font-weight: 700;
+  line-height: 1.28;
+  white-space: nowrap;
+}
+
+.institution-title a {
+  color: #2f3d57;
+}
+
+.institution-title a:hover {
+  color: #c97830;
+}
+
+.institution-subtitle {
+  margin: 0.28rem 0 0;
+  color: #617089;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
 @media screen and (max-width: 768px) {
   .hero-paper {
     padding-top: 1.5rem;
@@ -289,5 +382,16 @@ a:hover {
     min-height: 44px;
     padding: 0 18px;
     font-size: 0.95rem;
+  }
+
+  .institution-shell {
+    width: min(96vw, 900px);
+  }
+
+  .institution-band {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding: 1.2rem;
+    border-radius: 24px;
   }
 }
