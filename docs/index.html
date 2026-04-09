@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HMotionGPT: Aligning Hand Motions and Natural Language for Activity Understanding with Smart Rings</title>
+    <meta
+      name="description"
+      content="Official project page for HMotionGPT, a multimodal framework that aligns smart-ring IMU signals with natural language for hand-centric activity understanding."
+    />
+    <meta
+      property="og:title"
+      content="HMotionGPT: Aligning Hand Motions and Natural Language for Activity Understanding with Smart Rings"
+    />
+    <meta
+      property="og:description"
+      content="Project page for HMotionGPT with system overview, model architecture, training pipeline, and repository resources."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="images/paper/HMotionGPT_system.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="static/css/index.css" />
+  </head>
+  <body>
+    <section class="hero hero-paper">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <p class="eyebrow">Project Page</p>
+              <h1 class="title is-2 publication-title">
+                <span class="wordmark">HMotionGPT</span>
+              </h1>
+              <h2 class="publication-subtitle">
+                Aligning Hand Motions and Natural Language for Activity
+                Understanding with Smart Rings
+              </h2>
+
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">Yang Gao,</span>
+                <span class="author-block">Dong She,</span>
+                <span class="author-block">Wolin Liang,</span>
+                <span class="author-block">Chiyue Wang,</span>
+                <span class="author-block">Yingjing Xiao,</span>
+                <span class="author-block">Xianrong Yao,</span>
+                <span class="author-block">Cong Liu,</span>
+                <span class="author-block">ZhiChao Huang,</span>
+                <span class="author-block">Zhanpeng Jin</span>
+              </div>
+
+              <div class="publication-meta">
+                <p>Accepted at Proceedings of the ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies (IMWUT 2026)</p>
+              </div>
+
+              <div class="publication-links">
+                <span class="link-block">
+                  <a
+                    href="https://dl.acm.org/doi/10.1145/3729543"
+                    class="external-link button is-normal is-rounded is-dark"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a
+                    href="https://github.com/SCUT-HAI/HMotionGPT"
+                    class="external-link button is-normal is-rounded is-dark"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a
+                    href="https://github.com/SCUT-HAI/HMotionGPT/blob/main/README.md"
+                    class="external-link button is-normal is-rounded is-dark"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span class="icon"><i class="fas fa-book"></i></span>
+                    <span>README</span>
+                  </a>
+                </span>
+              </div>
+
+              <nav class="hero-nav" aria-label="Section navigation">
+                <a class="hero-nav-item" href="#overview">Overview</a>
+                <a class="hero-nav-item" href="#architecture">Architecture</a>
+                <a class="hero-nav-item" href="#training">Training</a>
+                <a class="hero-nav-item" href="#resources">Resources</a>
+                <a class="hero-nav-item" href="#citation">Citation</a>
+              </nav>
+
+              <div class="abstract-card">
+                <div class="abstract-accent"></div>
+                <h3 class="section-card-title">
+                  <span class="section-card-dot"></span>
+                  <span>Abstract</span>
+                </h3>
+                <p class="section-card-text">
+                  HMotionGPT is a multimodal framework that aligns smart-ring IMU
+                  signals with natural language for hand-centric activity
+                  understanding. The model projects motion representations into a
+                  language model so the system can support classification,
+                  captioning, and instruction-following activity analysis. This
+                  open-source release includes the core two-stage training
+                  pipeline, configurable language-model backbones, and minimal
+                  smoke-test assets for reproducible experimentation.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section showcase-section" id="overview">
+      <div class="container showcase-shell">
+        <article class="content-card">
+          <div class="section-card-accent"></div>
+          <h2 class="section-card-title">
+            <span class="section-card-dot"></span>
+            <span>System Overview</span>
+          </h2>
+          <p class="section-card-text">
+            HMotionGPT connects wearable smart rings, backend IMU processing,
+            and language-guided activity understanding in one pipeline. The
+            system is designed for hand-object interaction analysis, turning raw
+            inertial streams into interpretable text outputs that can describe
+            actions, classify activities, and support downstream interaction
+            understanding tasks.
+          </p>
+          <div class="figure-frame">
+            <img
+              src="images/paper/HMotionGPT_system.png"
+              alt="System overview of HMotionGPT"
+              class="paper-figure"
+            />
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section showcase-section" id="architecture">
+      <div class="container showcase-shell">
+        <article class="content-card">
+          <div class="section-card-accent"></div>
+          <h2 class="section-card-title">
+            <span class="section-card-dot"></span>
+            <span>Model Architecture</span>
+          </h2>
+          <p class="section-card-text">
+            The architecture first converts IMU sequences into motion
+            representations, then aligns those representations with the language
+            model through an IMU projector. This alignment enables the model to
+            reason over hand motions with language-supervised objectives while
+            preserving the temporal structure of wearable sensor signals.
+          </p>
+          <div class="figure-frame">
+            <img
+              src="images/paper/overview_hmontiongpt.png"
+              alt="Overall architecture of HMotionGPT"
+              class="paper-figure"
+            />
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section showcase-section" id="training">
+      <div class="container showcase-shell">
+        <article class="content-card">
+          <div class="section-card-accent"></div>
+          <h2 class="section-card-title">
+            <span class="section-card-dot"></span>
+            <span>Two-Stage Training Pipeline</span>
+          </h2>
+          <p class="section-card-text">
+            Stage 1 learns the IMU-to-language alignment by freezing the base
+            language model and optimizing the projector. Stage 2 performs
+            supervised fine-tuning with the aligned projector so the final model
+            can follow task instructions and generate stronger task-specific
+            outputs.
+          </p>
+          <div class="figure-frame">
+            <img
+              src="images/paper/training_pipeline.png"
+              alt="Two-stage training pipeline of HMotionGPT"
+              class="paper-figure"
+            />
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section showcase-section" id="resources">
+      <div class="container showcase-shell">
+        <article class="content-card">
+          <div class="section-card-accent"></div>
+          <h2 class="section-card-title">
+            <span class="section-card-dot"></span>
+            <span>Repository Resources</span>
+          </h2>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>Alignment Training</h3>
+              <p>
+                <code>hmotiongpt.cli.train_alignment</code> and
+                <code>configs/alignment.yaml</code> provide the stage-1
+                alignment entrypoint and default configuration.
+              </p>
+            </article>
+            <article class="feature-card">
+              <h3>SFT Training</h3>
+              <p>
+                <code>hmotiongpt.cli.train_sft</code> and
+                <code>configs/sft.yaml</code> cover instruction tuning with a
+                frozen projector copied from stage 1.
+              </p>
+            </article>
+            <article class="feature-card">
+              <h3>Smoke Tests</h3>
+              <p>
+                Tiny local assets under <code>example_data/</code> and
+                <code>example_models/</code> make it possible to run the
+                pipeline end to end before moving to larger backbones and
+                private datasets.
+              </p>
+            </article>
+            <article class="feature-card">
+              <h3>Minimal Layout</h3>
+              <p>
+                The <code>docs/</code> folder is ready for GitHub Pages
+                deployment and now stores the project page assets independently
+                from the training code.
+              </p>
+            </article>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section showcase-section" id="citation">
+      <div class="container showcase-shell">
+        <article class="content-card citation-card">
+          <div class="section-card-accent"></div>
+          <h2 class="section-card-title">
+            <span class="section-card-dot"></span>
+            <span>Citation</span>
+          </h2>
+          <pre class="bibtex-block">@article{hmotiongpt2026,
+  title     = {HMotionGPT: Aligning Hand Motions and Natural Language for Activity Understanding with Smart Rings},
+  journal   = {Proceedings of the ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies},
+  year      = {2026},
+  publisher = {ACM}
+}</pre>
+        </article>
+      </div>
+    </section>
+  </body>
+</html>
