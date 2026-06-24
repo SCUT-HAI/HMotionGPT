@@ -197,6 +197,7 @@ If you find this work useful, please cite our paper:
 @article{hmotiongpt2026,
   title     = {HMotionGPT: Aligning Hand Motions and Natural Language for Activity Understanding with Smart Rings},
   journal   = {Proceedings of the ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies},
+  url = {https://dl.acm.org/doi/10.1145/3810222},
   year      = {2026},
   publisher = {ACM}
 }
